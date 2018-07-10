@@ -125,6 +125,15 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
 - (void)updaterDidNotFindUpdate:(SUUpdater *)updater;
 
 /*!
+ Called immediately before commencing the update process, i.e. before downloading or installing.
+ Return YES to continue with the update, or NO to cancel the update process.
+
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that is proposed to be installed.
+ */
+- (BOOL)updater:(SUUpdater *)updater willBeginUpdate:(SUAppcastItem *)item;
+
+/*!
  Called immediately before downloading the specified update.
  
  \param updater The SUUpdater instance.

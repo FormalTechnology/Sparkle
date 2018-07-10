@@ -131,8 +131,17 @@
     [self.host setObject:nil forUserDefaultsKey:SUSkippedVersionKey];
     switch (choice) {
         case SUInstallUpdateChoice:
-            [self downloadUpdate];
+        {
+            id<SUUpdaterPrivate> updater = self.updater;
+            if ([[updater delegate] respondsToSelector:@selector(updater:willBeginUpdate:)]
+                && [[updater delegate] updater:self.updater willBeginUpdate:self.updateItem] == NO) {
+                [self abortUpdate];
+            }
+            else {
+                [self downloadUpdate];
+            }
             break;
+        }
 
         case SUOpenInfoURLChoice:
             [[NSWorkspace sharedWorkspace] openURL:[self.updateItem infoURL]];
