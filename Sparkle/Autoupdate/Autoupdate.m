@@ -126,17 +126,22 @@ static const NSTimeInterval SUTerminationTimeDelay = 0.5;
     }
     
     NSError *retrieveInstallerError = nil;
+    __block BOOL indeterminateProgress = NO;
     id<SUInstallerProtocol> installer = [SUInstaller installerForHost:host fileOperationToolPath:fileOperationToolPath updateDirectory:self.updateFolderPath error:&retrieveInstallerError];
     if (installer == nil) {
         SULog(SULogLevelError, @"Retrieved Installer Error: %@", retrieveInstallerError);
         exit(EXIT_FAILURE);
     }
     
+    if(![installer supportsProgressCallback]) {
+        indeterminateProgress = YES;
+    }
+    
     if (self.shouldShowUI && [installer canInstallSilently]) {
         self.statusController = [[SUStatusController alloc] initWithHost:host];
         [self.statusController setButtonTitle:SULocalizedString(@"Cancel Update", @"") target:nil action:Nil isDefault:NO];
         [self.statusController beginActionWithTitle:SULocalizedString(@"Installing update...", @"")
-                                   maxProgressValue:100 statusText: @""];
+                                   maxProgressValue:(indeterminateProgress ? 0.0 : 100.0) statusText: @""];
         [self.statusController showWindow:self];
     }
     
@@ -153,7 +158,9 @@ static const NSTimeInterval SUTerminationTimeDelay = 0.5;
         
         void(^progressBlock)(double) = ^(double progress){
             dispatch_async(dispatch_get_main_queue(), ^(){
-                self.statusController.progressValue = progress * 100.0;
+                if(!indeterminateProgress) {
+                    self.statusController.progressValue = progress * 100.0;
+                }
             });
         };
 

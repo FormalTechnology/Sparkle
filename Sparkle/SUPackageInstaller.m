@@ -78,4 +78,10 @@ static NSString *SUOpenUtilityPath = @"/usr/bin/open";
     return NO;
 }
 
+
+- (BOOL)supportsProgressCallback {
+    return NO;
+}
+
+
 @end

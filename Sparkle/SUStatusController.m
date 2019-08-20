@@ -55,7 +55,8 @@ static NSString *const SUStatusControllerTouchBarIndentifier = @"" SPARKLE_BUNDL
 
     [[self window] center];
     [[self window] setFrameAutosaveName:@"SUStatusFrame"];
-    [self.progressBar setUsesThreadedAnimation:YES];
+    // Force update to enable indeterminate mode
+    self.maxProgressValue = 0.0;
 
     if ([SUOperatingSystem isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){10, 11, 0}]) {
 #pragma clang diagnostic push
@@ -129,8 +130,8 @@ static NSString *const SUStatusControllerTouchBarIndentifier = @"" SPARKLE_BUNDL
     maxProgressValue = value;
     [self setProgressValue:0.0];
     [self.progressBar setIndeterminate:(value == 0.0)];
-    [self.progressBar startAnimation:self];
     [self.progressBar setUsesThreadedAnimation:YES];
+    [self.progressBar startAnimation:self];
 }
 
 

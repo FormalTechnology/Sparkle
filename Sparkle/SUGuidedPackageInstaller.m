@@ -54,4 +54,9 @@
     return YES;
 }
 
+- (BOOL)supportsProgressCallback {
+    return NO;
+}
+
+
 @end

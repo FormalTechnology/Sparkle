@@ -257,4 +257,9 @@
     return YES;
 }
 
+- (BOOL)supportsProgressCallback {
+    return YES;
+}
+
+
 @end

@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 // Should be thread safe
 - (NSString *)installationPath;
 
+
+// If installer support progress reports
+- (BOOL)supportsProgressCallback;
+
 @end
 
 NS_ASSUME_NONNULL_END
