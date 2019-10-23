@@ -58,7 +58,7 @@ static NSString *const SUStatusControllerTouchBarIndentifier = @"" SPARKLE_BUNDL
     // Force update to enable indeterminate mode
     self.maxProgressValue = 0.0;
 
-    if ([SUOperatingSystem isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){10, 11, 0}]) {
+    if (SUAVAILABLE(10, 11)) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
         [self.statusTextField setFont:[NSFont monospacedDigitSystemFontOfSize:0 weight:NSFontWeightRegular]];
